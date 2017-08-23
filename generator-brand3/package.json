@@ -1,0 +1,15 @@
+{
+  "name": "generator-brand3",
+  "version": "1.0.0",
+  "description": "test the yeoman template generator",
+  "files": [
+    "generators"
+  ],
+  "keywords": [
+    "yeoman-generator"
+  ],
+  "dependencies": {
+    "yeoman-generator": "^1.1.1"
+  },
+  "author": "Pelle Brandes"
+}
