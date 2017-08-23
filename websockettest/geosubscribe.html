@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+  <head>
+    <title>GEO-SUBSCRIBE</title>
+  </head>
+  <body>
+    <input id="user" autocomplete="off" value="all" /><button onclick="subscribe();">Subscribe</button>
+    
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        var socket, userField, user;
+
+        function subscribe() {
+            socket = io();
+            userField = document.getElementById("user");
+            user = userField.value || "all";
+
+            socket.on('geosubmitInsert_' + user, function(json){
+                console.log(json);
+            });
+        }
+    </script>
+  </body>
+</html>

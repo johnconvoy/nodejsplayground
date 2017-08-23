@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<body>
+<input id="user" autocomplete="off" />
+<p id="demo"></p>
+<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+<script>
+var x = document.getElementById("demo");
+var userField = document.getElementById("user");
+
+setInterval(getLocation, 5000);
+
+function getLocation() {
+    if (navigator.geolocation) {
+        if ( userField.value ) {
+            navigator.geolocation.getCurrentPosition(submit);
+        }
+    } else { 
+        x.innerHTML = "Geolocation is not supported by this browser.";
+    }
+}
+
+function submit(position) {
+    var latitude = position.coords.latitude;
+    var longitude = position.coords.longitude;
+    var user = userField.value;
+
+    if ( user ) {
+        $.post('/geosubmit/insert', 
+            {
+                latitude: latitude,
+                longitude: longitude,
+                user: user
+            },
+            function(data){
+                var me = this;
+                x.innerHTML = "Latitude: " + latitude + 
+                        "<br>Longitude: " + longitude +
+                        "<br>submit status: " + me.status + 
+                        "<br>responseText: " + me.responseText;
+            });
+    }
+}
+</script>
+
+</body>
+</html>
