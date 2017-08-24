@@ -35,9 +35,8 @@ function submit(position) {
             function(data){
                 var me = this;
                 x.innerHTML = "Latitude: " + latitude + 
-                        "<br>Longitude: " + longitude +
-                        "<br>submit status: " + me.status + 
-                        "<br>responseText: " + me.responseText;
+                        "<br>Longitude: " + longitude;
+                console.log(x.innerHTML);
             });
     }
 }

@@ -5,7 +5,7 @@
   </head>
   <body>
     <input id="user" autocomplete="off" value="all" /><button onclick="subscribe();">Subscribe</button>
-    
+    <div id="map_canvas" style="height: 600px; width: 100%;"></div>
     <script src="/socket.io/socket.io.js"></script>
     <script>
         var socket, userField, user;
@@ -16,9 +16,56 @@
             user = userField.value || "all";
 
             socket.on('geosubmitInsert_' + user, function(json){
-                console.log(json);
+                try {
+                  json = JSON.parse(json);
+                  var lat = json.latitude;
+                  var lng = json.longitude;
+                  var markerName = json.user;
+                  addMarker(markerName, lat, lng);
+                  console.log(json);
+                } catch(e) {
+                  console.log(e.message);
+                }
+                
             });
         }
     </script>
+    <script type="text/javascript">
+      var markers = {}, 
+          map;
+      // Standard google maps function
+      function initialize() {
+          var myLatlng = new google.maps.LatLng(40.779502, -73.967857);
+          var myOptions = {
+              zoom: 8,
+              center: myLatlng,
+              mapTypeId: google.maps.MapTypeId.ROADMAP
+          };
+          map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+      }
+
+      // Function for adding a marker to the page.
+      function addMarker(markerName, lat, lng) {
+          if ( markers[markerName] ) {
+            removeMarker(markerName);
+          }
+          markers[markerName] = new google.maps.Marker({
+              position: new google.maps.LatLng(lat, lng),
+              label: markerName,
+              map: map
+          });
+      }
+
+      function removeMarker(markerName) {
+          if ( markers[markerName] ) {
+            markers[markerName].setMap(null);
+            markers[markerName] = null;
+          }
+      }
+</script>
+<script async defer
+    src="https://maps.googleapis.com/maps/api/js?libraries=geometry,places&language=da&client=gme-softdesign&channel=KBO007P_SD&callback=initialize">
+    </script>
+    
   </body>
 </html>
